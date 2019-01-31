@@ -8,7 +8,7 @@ import org.jsoup.nodes.Element;
 
 public class ReadmeGenerator {
 
-	static String HEADER = "# Puppet-Docs-Marker-Template\n"
+	static String HEADER = "# Puppet Docs Marker 3.8\n"
 			+ "Mark what sections you have read from the Puppet Docs 3.8\n\n";
 	static String BASE = "https://puppet.com";
 
@@ -21,8 +21,12 @@ public class ReadmeGenerator {
 		main = doc.selectFirst("ul");
 		
 		for (Element heading : main.children()) {
-			Element tag = heading.selectFirst("a");
-			System.out.println("## [" + tag.text() + "](" + processLink(tag.attr("href")) + ")");
+			if (heading.hasClass("hidden-nav")) {
+				System.out.println("## " + heading.selectFirst("strong").text());
+			} else {
+				Element tag = heading.selectFirst("a");
+				System.out.println("## [" + tag.text() + "](" + processLink(tag.attr("href")) + ")");
+			}
 			
 			Element first = heading.selectFirst("ul");
 			if (first != null) {
@@ -34,13 +38,7 @@ public class ReadmeGenerator {
 								+ "(" + processLink(firstTag.attr("href")) + ")");
 					} else {
 						System.out.println();
-						Element firstTag = li.selectFirst("a");
-						if (firstTag != null) {
-							System.out.println("### [" + firstTag.text() + "]"
-									+ "(" + processLink(firstTag.attr("href")) + ")");
-						} else {
-							System.out.println("### " + li.selectFirst("strong").text());
-						}
+						System.out.println("### " + li.selectFirst("strong").text());
 	
 						for (Element secondLi : second.getElementsByTag("li")) {
 							Element secondTag = secondLi.selectFirst("a");
