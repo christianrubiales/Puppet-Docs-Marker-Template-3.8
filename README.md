@@ -1,4 +1,4 @@
-# Puppet-Docs-Marker-Template
+# Puppet Docs Marker 3.8
 Mark what sections you have read from the Puppet Docs 3.8
 
 
